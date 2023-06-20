@@ -206,7 +206,7 @@ def product_description():
     return render_template("productDescription.html", data=productData, loggedIn=logged_in, firstName=first_name,
                            noOfItems=no_of_items)
 
-@app.route("/addToCart")
+@app.route("/add_to_cart")
 def add_to_cart():
     if 'email' not in session:
         return redirect(url_for('login_form'))
@@ -217,7 +217,7 @@ def add_to_cart():
             cur.execute("SELECT userId FROM users WHERE email = '" + session['email'] + "'")
             user_id = cur.fetchone()[0]
             try:
-                cur.execute("INSERT INTO kart (userId, productId) VALUES (?, ?)", (user_id, product_id))
+                cur.execute("INSERT INTO cart (userId, productId) VALUES (?, ?)", (user_id, product_id))
                 conn.commit()
                 msg = "Added successfully"
             except:
@@ -243,7 +243,7 @@ def cart():
         total_price += row[2]
     return render_template("cart.html", products = products, totalPrice=total_price, loggedIn=logged_in, firstName=first_name, noOfItems=no_of_items)
 
-@app.route("/removeFromCart")
+@app.route("/remove_from_cart")
 def remove_from_cart():
     if 'email' not in session:
         return redirect(url_for('login_form'))
@@ -254,7 +254,7 @@ def remove_from_cart():
         cur.execute("SELECT user_id FROM users WHERE email = '" + email + "'")
         user_id = cur.fetchone()[0]
         try:
-            cur.execute("DELETE FROM kart WHERE user_id = " + str(user_id) + " AND productId = " + str(product_id))
+            cur.execute("DELETE FROM cart WHERE user_id = " + str(user_id) + " AND productId = " + str(product_id))
             conn.commit()
             msg = "removed successfully"
         except:
