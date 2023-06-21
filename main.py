@@ -254,7 +254,7 @@ def remove_from_cart():
         cur.execute("SELECT user_id FROM users WHERE email = '" + email + "'")
         user_id = cur.fetchone()[0]
         try:
-            cur.execute("DELETE FROM kart WHERE user_id = " + str(user_id) + " AND productId = " + str(product_id))
+            cur.execute("DELETE FROM cart WHERE user_id = " + str(user_id) + " AND productId = " + str(product_id))
             conn.commit()
             msg = "removed successfully"
         except:
